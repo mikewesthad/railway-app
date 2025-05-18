@@ -1,0 +1,38 @@
+.pill {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px 8px;
+  align-items: center;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.success {
+  background-color: rgb(34 197 94 / 0.1);
+  color: rgb(22 163 74);
+}
+
+.error {
+  background-color: rgb(239 68 68 / 0.1);
+  color: rgb(220 38 38);
+}
+
+.inProgress {
+  background-color: rgb(59 130 246 / 0.1);
+  color: rgb(37 99 235);
+}
+
+.pending {
+  background-color: rgb(234 179 8 / 0.1);
+  color: rgb(202 138 4);
+}
+
+.sleeping {
+  background-color: rgb(107 114 128 / 0.1);
+  color: rgb(75 85 99);
+}
+
+.neutral {
+  background-color: rgb(156 163 175 / 0.1);
+  color: rgb(107 114 128);
+}

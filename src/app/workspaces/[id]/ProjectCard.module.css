@@ -1,0 +1,122 @@
+.card {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: var(--gray-200);
+  border-color: var(--gray-300);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--gray-300) 1px, transparent 1px);
+  background-size: 18px 18px;
+  z-index: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.card:hover::before {
+  opacity: 0.5;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.date {
+  font-size: 0.9rem;
+  color: #888b92;
+}
+
+.description {
+  color: #b0b3ba;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+  z-index: 1;
+  position: relative;
+}
+
+.services {
+  padding-top: 1rem;
+  z-index: 1;
+  position: relative;
+}
+
+.servicesTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #888b92;
+  margin: 0 0 0.75rem 0;
+}
+
+.serviceList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.service {
+  background: var(--gray-200);
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  color: #e5e7eb;
+  border: 1px solid #35363a;
+}
+
+.card:hover .service {
+  background: var(--gray-300);
+}
+
+.serviceIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  vertical-align: middle;
+  display: inline-block;
+  object-fit: contain;
+  filter: brightness(0.9) grayscale(0.2);
+}
+
+.deploymentLink {
+  display: inline-block;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.35em 1em;
+  border-radius: 6px;
+  background: var(--gray-300);
+  color: var(--gray-900);
+  font-weight: 500;
+  font-size: 0.97rem;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+
+.deploymentLink:hover {
+  background: var(--gray-400);
+  color: var(--gray-1000);
+}
