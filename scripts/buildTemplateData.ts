@@ -1,3 +1,8 @@
+/**
+ * Builds a JSON file containing all templates from the Railway GraphQL API.
+ * This is used to expedite testing the AI assistant logic when developing.
+ */
+
 import { QueryTemplatesConnection } from "@/__generated__/graphql";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { loadEnvConfig } from "@next/env";
@@ -5,7 +10,6 @@ import fs from "fs/promises";
 import path from "path";
 import removeMd from "remove-markdown";
 
-// Load environment variables
 loadEnvConfig(process.cwd());
 
 const TEMPLATES_QUERY = gql`
@@ -14,6 +18,7 @@ const TEMPLATES_QUERY = gql`
       edges {
         node {
           id
+          code
           isApproved
           activeProjects
           projects

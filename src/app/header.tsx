@@ -38,7 +38,12 @@ export function Header() {
           <DropdownButton>{image}</DropdownButton>
           <DropdownMenu placement="bottom end">
             {isLoggedIn ? (
-              <DropdownItem onAction={() => router.push("/auth/logout")}>Log out</DropdownItem>
+              <>
+                <DropdownItem onAction={() => router.push("/manageToken")}>
+                  Manage Railway Token
+                </DropdownItem>
+                <DropdownItem onAction={() => router.push("/auth/logout")}>Log out</DropdownItem>
+              </>
             ) : (
               <DropdownItem onAction={() => router.push("/auth/login")}>Log in</DropdownItem>
             )}

@@ -1,0 +1,15 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tokenForm {
+  max-width: 400px;
+}

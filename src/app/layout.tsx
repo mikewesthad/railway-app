@@ -4,6 +4,7 @@ import { Header } from "./header";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import styles from "./layout.module.css";
+import { ApolloWrapper } from "./ApolloWrapper";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -15,8 +16,6 @@ export const metadata: Metadata = {
   title: "Railway - Mike Hadley",
   description: "Railway - Mike Hadley",
 };
-
-import { ApolloWrapper } from "./ApolloWrapper";
 
 export default function RootLayout({
   children,

@@ -1,4 +1,7 @@
-// Test script for AI template selector
+/**
+ * Test script for the AI template selector. This is used for testing prompts
+ * and responses from the AI assistant.
+ */
 
 import { loadEnvConfig } from "@next/env";
 import OpenAI from "openai";
@@ -6,7 +9,6 @@ import fs from "fs/promises";
 import path from "path";
 import { Template } from "@/__generated__/graphql";
 
-// Load environment variables
 loadEnvConfig(process.cwd());
 
 const openai = new OpenAI({
@@ -19,7 +21,7 @@ function formatTemplateForPrompt(template: Template): string {
   const tags = template.tags?.join(", ") || "No tags specified";
 
   return `
-Template ID: ${template.id}
+Code: ${template.code}
 Name: ${template.name}
 Description: ${description}
 Languages: ${languages}
@@ -36,12 +38,12 @@ async function getTemplateRecommendation(
   const prompt = `
 I want to build ${userRequest}. Recommend a template for me. Your response should be in the form:
 
-templateId: 123
+templateCode: 123
 reason: xyz
 
 The reason should be a single short sentence. If there is no good template that matches return:
 
-templateId: null
+templateCode: null
 reason: No template found.
 
 Here are the top templates and some info about them:

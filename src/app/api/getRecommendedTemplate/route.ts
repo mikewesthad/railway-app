@@ -12,7 +12,7 @@ function formatTemplateForPrompt(template: (typeof templateData)[number]): strin
   const tags = template.tags?.join(", ") || "No tags specified";
 
   return `
-Template ID: ${template.id}
+Template Code: ${template.code}
 Name: ${template.name}
 Description: ${description}
 Languages: ${languages}
@@ -22,6 +22,25 @@ Health Score: ${template.health || "N/A"}
 -------------------`;
 }
 
+function buildFormattedTemplateListForPrompt(templates: typeof templateData): string {
+  const filteredTemplates = templates.filter((t) => {
+    if (!t.health || t.health < 70) return false;
+    if (t.description === null) return false;
+    if (t.activeProjects === 0) return false;
+    return true;
+  });
+
+  filteredTemplates.sort((a, b) => b.activeProjects - a.activeProjects);
+
+  // Format and limit templates for prompt
+  const formattedTemplates = filteredTemplates
+    .slice(0, 100)
+    .map(formatTemplateForPrompt)
+    .join("\n");
+
+  return formattedTemplates;
+}
+
 async function getTemplateRecommendation(
   userRequest: string,
   templateData: string
@@ -29,12 +48,12 @@ async function getTemplateRecommendation(
   const prompt = `
 I want to build ${userRequest}. Recommend a template for me. Your response should be in the form:
 
-templateId: 123
+templateCode: 123
 reason: xyz
 
 The reason should be a single short sentence. If there is no good template that matches return:
 
-templateId: null
+templateCode: null
 reason: No template found.
 
 Here are the top templates and some info about them:
@@ -60,6 +79,8 @@ ${templateData}
   return completion.choices[0].message.content || "No recommendation available";
 }
 
+const formattedTemplateList = buildFormattedTemplateListForPrompt(templateData);
+
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json();
@@ -68,29 +89,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    const filteredTemplates = templateData.filter((t) => {
-      if (!t.health || t.health < 70) return false;
-      if (t.description === null) return false;
-      if (t.activeProjects === 0) return false;
-      return true;
-    });
+    const recommendation = await getTemplateRecommendation(prompt, formattedTemplateList);
 
-    filteredTemplates.sort((a, b) => b.activeProjects - a.activeProjects);
-
-    // Format and limit templates for prompt
-    const formattedTemplates = filteredTemplates
-      .slice(0, 100)
-      .map(formatTemplateForPrompt)
-      .join("\n");
-
-    const recommendation = await getTemplateRecommendation(prompt, formattedTemplates);
-
-    // Parse the recommendation to extract templateId and reason
-    const templateIdMatch = recommendation.match(/templateId:\s*(\S+)/);
+    // Parse the recommendation to extract templateCode and reason
+    const templateCodeMatch = recommendation.match(/templateCode:\s*(\S+)/);
     const reasonMatch = recommendation.match(/reason:\s*(.+)/);
 
     return NextResponse.json({
-      templateId: templateIdMatch ? templateIdMatch[1] : null,
+      templateCode: templateCodeMatch ? templateCodeMatch[1] : null,
       reason: reasonMatch ? reasonMatch[1].trim() : "No reason provided",
     });
   } catch (error) {

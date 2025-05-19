@@ -6,9 +6,10 @@ import styles from "./TokenForm.module.css";
 
 interface TokenFormProps {
   onTokenSaved: () => void;
+  className?: string;
 }
 
-export function TokenForm({ onTokenSaved }: TokenFormProps) {
+export function TokenForm({ onTokenSaved, className }: TokenFormProps) {
   const [token, setToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +39,7 @@ export function TokenForm({ onTokenSaved }: TokenFormProps) {
   };
 
   return (
-    <div className={styles.tokenForm}>
+    <div className={`${styles.tokenForm} ${className}`}>
       <h2>Enter Your Railway Token</h2>
       <p>Please enter your Railway API token to continue.</p>
       <form onSubmit={handleSubmit}>
