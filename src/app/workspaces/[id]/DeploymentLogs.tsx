@@ -13,6 +13,12 @@ const BUILD_LOGS_QUERY = gql(`
   }
 `);
 
+/**
+ * This was a proof-of-concept for AI debugging of logs. It was cut for time,
+ * but the idea is to use the OpenAI API to analyze the logs and provide a
+ * one-sentence explanation of what failed and what to do to fix it using
+ * Railway terminology. It generated pretty decent results.
+ */
 export function DeploymentLogs({ deploymentId }: { deploymentId: string }) {
   const { data, loading, error } = useQuery(BUILD_LOGS_QUERY, {
     variables: { deploymentId },
