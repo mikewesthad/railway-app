@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  outline: none;
+}
+
+.closeButton {
+  background: none;
+  cursor: pointer;
+  border: none;
+  color: var(--foreground);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--foreground);
+}

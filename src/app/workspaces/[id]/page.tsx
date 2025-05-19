@@ -4,6 +4,7 @@ import { gql } from "@/__generated__/gql";
 import { useQuery } from "@apollo/client";
 import styles from "./page.module.css";
 import { ProjectCard } from "./ProjectCard";
+import { ButtonLink } from "@/components/ButtonLink";
 
 const PROJECTS = gql(`
   query MyProjects {
@@ -23,13 +24,6 @@ const PROJECTS = gql(`
     }
   }
 `);
-
-// subscription MyQuery($deploymentId: String!) {
-//   buildLogs(deploymentId: $deploymentId) {
-//     severity
-//     message
-//   }
-// }
 
 // query marketplace {
 //   templates(first: 10, recommended: true) {
@@ -56,7 +50,10 @@ export default function WorkspacePage() {
         {error && <p>Error: {error.message}</p>}
         {data && (
           <>
-            <h1>{data.workspace.name}</h1>
+            <div className={styles.header}>
+              <h1>{data.workspace.name}</h1>
+              <ButtonLink href="/create">Create Project</ButtonLink>
+            </div>
             <div className={styles.projectGrid}>
               {data.workspace.team?.projects?.edges.map((project) => (
                 <ProjectCard key={project.node.id} project={project.node} />

@@ -2,7 +2,6 @@ import styles from "./ProjectCard.module.css";
 import { gql } from "@/__generated__/gql";
 import { FragmentType, useFragment } from "@/__generated__/fragment-masking";
 import { DeploymentStatus } from "./DeploymentStatus";
-import { DeploymentLogs } from "./DeploymentLogs";
 
 const PROJECT_CARD_FRAGMENT = gql(`
   fragment ProjectCard on Project {
@@ -70,7 +69,6 @@ export function ProjectCard(props: ProjectCardProps) {
           View Deployment
         </a>
       )}
-      {deployment && <DeploymentLogs deploymentId={deployment.id} />}
       <div className={styles.services}>
         <h3 className={styles.servicesTitle}>Services</h3>
         <div className={styles.serviceList}>

@@ -1,0 +1,122 @@
+# Empty: {input: {teamId: "14fc15eb-b61d-47bc-93b0-385d4d2b244b", plugins: [], reason: "empty"}}
+
+mutation projectCreate($input: ProjectCreateInput!) {
+  projectCreate(input: $input) {
+    ...ProjectFields
+  }
+}
+
+fragment ProjectFields on Project {
+  id
+  name
+  description
+  createdAt
+  updatedAt
+  expiredAt
+  deletedAt
+  prDeploys
+  botPrEnvironments
+  isTempProject
+  isPublic
+  subscriptionType
+  subscriptionPlanLimit
+  teamId
+  baseEnvironmentId
+  projectPermissions {
+    edges {
+      node {
+        ...ProjectPermissionFields
+      }
+    }
+  }
+  plugins {
+    edges {
+      node {
+        ...PluginFields
+      }
+    }
+  }
+  environments {
+    edges {
+      node {
+        ...EnvironmentFields
+      }
+    }
+  }
+  services {
+    edges {
+      node {
+        ...ServiceFields
+      }
+    }
+  }
+  volumes {
+    edges {
+      node {
+        ...VolumeFields
+      }
+    }
+  }
+}
+
+fragment ProjectPermissionFields on ProjectPermission {
+  role
+  userId
+  projectId
+}
+
+fragment PluginFields on Plugin {
+  id
+  name
+  friendlyName
+  status
+  deprecatedAt
+  createdAt
+  logsEnabled
+  containers {
+    edges {
+      node {
+        ...ContainerFields
+      }
+    }
+  }
+}
+
+fragment ContainerFields on Container {
+  environmentId
+  pluginId
+  deletedAt
+}
+
+fragment EnvironmentFields on Environment {
+  id
+  name
+  projectId
+  createdAt
+  isEphemeral
+  meta {
+    prNumber
+    prTitle
+    prRepo
+    branch
+    baseBranch
+  }
+}
+
+fragment ServiceFields on Service {
+  id
+  name
+  icon
+  templateServiceId
+  createdAt
+  projectId
+  featureFlags
+  templateThreadSlug
+}
+
+fragment VolumeFields on Volume {
+  id
+  createdAt
+  name
+  projectId
+}
