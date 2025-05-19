@@ -7,25 +7,8 @@ const templateQuery = gql(`
   query CreatePageAssistantGetTemplate($code: String) {
     template(code: $code) {
       id
-      ...CreatePageAssistantTemplate
+      ...TemplateCard
     }
-  }
-
-  fragment CreatePageAssistantTemplate on Template {
-    id
-    code
-    name
-    description
-    category
-    health
-    readme
-    tags
-    languages
-    guides {
-      post
-      video
-    }
-    serializedConfig
   }
 `);
 

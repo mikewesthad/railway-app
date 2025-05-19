@@ -101,37 +101,10 @@ export default function AssistantPage() {
                       <p>Loading template details...</p>
                     </div>
                   ) : data.template ? (
-                    <div className={styles.templateDetails}>
-                      <h2>{data.template.name}</h2>
-                      <p>{data.template.description || "No description available"}</p>
-                      {data.template.tags && data.template.tags.length > 0 && (
-                        <div className={styles.tags}>
-                          {data.template.tags.map((tag) => (
-                            <span key={tag} className={styles.tag}>
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {data.template.languages && data.template.languages.length > 0 && (
-                        <div className={styles.languages}>
-                          <h3>Languages</h3>
-                          <div className={styles.languageList}>
-                            {data.template.languages.map((language) => (
-                              <span key={language} className={styles.language}>
-                                {language}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      <Button
-                        onClick={() => onTemplateSelect(data.template?.code ?? "")}
-                        className={styles.deployButton}
-                      >
-                        Deploy Template
-                      </Button>
-                    </div>
+                    <TemplateCard
+                      template={data.template}
+                      teamId={workspaceData?.workspace?.team?.id}
+                    />
                   ) : null}
                 </>
               ) : (
