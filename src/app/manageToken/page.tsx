@@ -5,6 +5,7 @@ import { TokenForm } from "./TokenForm";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import styles from "./page.module.css";
 import { Button } from "@/components/Button";
+import { FaTrash } from "react-icons/fa";
 
 interface TokenStatus {
   hasToken: boolean;
@@ -81,16 +82,16 @@ export default function ManageTokenPage() {
                 onClick={handleDeleteToken}
                 disabled={isDeleting}
                 className={styles.deleteButton}
+                variant="danger"
+                leftIcon={isDeleting ? <LoadingSpinner size={20} /> : <FaTrash />}
               >
-                {isDeleting ? <LoadingSpinner size={20} /> : "Delete Token"}
+                Delete Token
               </Button>
             </div>
           </>
         ) : (
-          <p>No token set yet.</p>
+          <TokenForm onTokenSaved={fetchTokenStatus} className={styles.tokenForm} />
         )}
-
-        <TokenForm onTokenSaved={fetchTokenStatus} className={styles.tokenForm} />
       </div>
     </main>
   );

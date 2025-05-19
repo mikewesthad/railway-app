@@ -1,23 +1,3 @@
-.container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.tokenForm {
-  margin-top: 2rem;
-}
-
-.tokenStatus {
-  margin: 2rem 0;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
-
 .deleteButton {
   background: #dc3545;
   color: white;
@@ -45,9 +25,7 @@
 .tokenForm {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
-  padding: 2rem;
   background: var(--background);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -64,7 +42,6 @@
 .tokenForm p {
   margin: 0;
   color: var(--gray-600);
-  text-align: center;
 }
 
 .tokenForm form {

@@ -24,10 +24,14 @@ const WORKSPACES = gql(`
   }
 `);
 
+/**
+ * Redirects to the first workspace in the user's account. Little bit of a
+ * corner cut here. TODO: support workspace switching.
+ */
 function RedirectToWorkspace() {
   const { loading, error, data } = useQuery(WORKSPACES);
   const router = useRouter();
-  const firstWorkspaceId = data?.me.workspaces[0].id;
+  const firstWorkspaceId = data?.me?.workspaces?.[0]?.id;
 
   React.useEffect(() => {
     if (firstWorkspaceId) {
@@ -35,11 +39,46 @@ function RedirectToWorkspace() {
     }
   }, [firstWorkspaceId, router]);
 
-  if (error || !data || (!loading && !firstWorkspaceId)) {
-    return <div>Error: {error?.message ?? "Could not load Railway data"}</div>;
+  if (loading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner size={32} />
+      </Wrapper>
+    );
   }
 
-  return <LoadingSpinner size={32} />;
+  if (error) {
+    return (
+      <Wrapper>
+        <div>Error: {error.message}</div>
+      </Wrapper>
+    );
+  }
+
+  if (!data?.me?.workspaces?.length) {
+    return (
+      <Wrapper>
+        <div>No workspaces found!</div>
+      </Wrapper>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <LoadingSpinner size={32} />
+    </Wrapper>
+  );
+}
+
+function Wrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={styles.page}>
+      <main className={styles.main}>
+        <h1>Railway App</h1>
+        {children}
+      </main>
+    </div>
+  );
 }
 
 export default function Home() {
@@ -68,39 +107,30 @@ export default function Home() {
 
   if (isLoading || isCheckingToken) {
     return (
-      <div className={styles.page}>
-        <main className={styles.main}>
-          <h1>Railway App</h1>
-          <LoadingSpinner size={32} />
-        </main>
-      </div>
+      <Wrapper>
+        <LoadingSpinner size={32} />
+      </Wrapper>
     );
   }
 
   if (!user) {
     return (
-      <div className={styles.page}>
-        <main className={styles.main}>
-          <h1>Railway App</h1>
-          <div className={styles.logIn}>
-            <div>Please log in to get started.</div>
-            <ButtonLink variant="primary" href="/auth/login">
-              Login
-            </ButtonLink>
-          </div>
-        </main>
-      </div>
+      <Wrapper>
+        <div className={styles.logIn}>
+          <div>Please log in to get started.</div>
+          <ButtonLink variant="primary" href="/auth/login">
+            Login
+          </ButtonLink>
+        </div>
+      </Wrapper>
     );
   }
 
   if (hasToken === false) {
     return (
-      <div className={styles.page}>
-        <main className={styles.main}>
-          <h1>Railway App</h1>
-          <TokenForm onTokenSaved={checkToken} />
-        </main>
-      </div>
+      <Wrapper>
+        <TokenForm onTokenSaved={checkToken} />
+      </Wrapper>
     );
   }
 
