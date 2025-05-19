@@ -93,7 +93,7 @@ function AssistantPageContent() {
             <AssistantMessage>
               <div className={styles.assistantMessageLoading}>
                 <LoadingSpinner />
-                <span>Hold tight, we&apos;re working on it...</span>
+                <span>Hold tight, I&apos;m working on it...</span>
               </div>
             </AssistantMessage>
           ) : null}
