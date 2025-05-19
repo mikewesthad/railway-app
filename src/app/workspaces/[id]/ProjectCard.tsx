@@ -63,6 +63,7 @@ function getSuccessfulDeploymentUrls(project: ProjectCardFragment) {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const deployments = getSuccessfulDeploymentUrls(project);
+  const maxServicesToDisplay = 3;
 
   return (
     <div className={styles.card}>
@@ -91,7 +92,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <span>No deployments</span>
       )}
       <div className={styles.serviceList}>
-        {project.services.edges.map((service) => (
+        {project.services.edges.slice(0, maxServicesToDisplay).map((service) => (
           <span key={service.node.id} className={styles.service}>
             {service.node.icon && (
               // Don't try to optimize remotely hosted icon images.
@@ -107,6 +108,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
             {service.node.name}
           </span>
         ))}
+        {project.services.edges.length > maxServicesToDisplay ? (
+          <span className={styles.service}>
+            +{project.services.edges.length - maxServicesToDisplay} more
+          </span>
+        ) : null}
       </div>
     </div>
   );
