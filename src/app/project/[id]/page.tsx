@@ -57,7 +57,7 @@ export default function ProjectPage() {
     variables: { id: params.id },
     // TODO: this is a terrible hack to get a live list of deployments. This
     // should use a subscription to only query the updates needed.
-    // pollInterval: 5000,
+    pollInterval: 5000,
   });
 
   const project = data?.project;
