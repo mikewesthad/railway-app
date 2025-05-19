@@ -1,6 +1,0 @@
-query MyAccountFile {
-  me {
-    id
-    name
-  }
-}

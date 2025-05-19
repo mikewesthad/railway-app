@@ -48,22 +48,22 @@ function CreatePageContent() {
           icon={<ImMagicWand size={28} />}
           color="pink"
         >
-          <h3>Build with Railway assistant</h3>
+          <h2>Build with Railway assistant</h2>
           <p>Simply describe what you want to deploy and the assistant will create it for you.</p>
         </Card>
 
         <Card href={`/create/template?teamId=${teamId}`} icon={<IoGrid size={28} />}>
-          <h3>Choose an existing template</h3>
+          <h2>Choose an existing template</h2>
           <p>Browse our collection of pre-built templates from the community.</p>
         </Card>
 
         <Card href={`/create/github?teamId=${teamId}`} icon={<FaGithub size={28} />}>
-          <h3>Import a project from GitHub</h3>
+          <h2>Import a project from GitHub</h2>
           <p>Deploy an existing project from your GitHub repository.</p>
         </Card>
 
         <Card href={`/create/blank?teamId=${teamId}`} icon={<FaCode size={28} />}>
-          <h3>Start from an empty project</h3>
+          <h2>Start from an empty project</h2>
           <p>Create a new project that is completely blank.</p>
         </Card>
       </div>

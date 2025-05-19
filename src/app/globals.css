@@ -80,6 +80,7 @@
   --yellow-900: hsl(44, 78%, 90%);
   --yellow-950: hsl(44, 75%, 97%);
 
+  /* TODO: move everything to consistent spacing + type system. */
   --space-unit: 8px;
   --space-half: calc(0.5 * var(--space-unit));
   --space-1: calc(1 * var(--space-unit));
@@ -88,7 +89,6 @@
   --space-4: calc(4 * var(--space-unit));
   --space-5: calc(5 * var(--space-unit));
   --space-6: calc(6 * var(--space-unit));
-
   --font-size-base: 16px;
   --font-size-scale: 1.1;
   --font-size-small: calc(pow(var(--font-size-scale), -1) * var(--font-size-base));

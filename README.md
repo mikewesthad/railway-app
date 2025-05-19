@@ -9,17 +9,11 @@ The advances in AI tooling likely mean more people trying to deploy their code t
 
 AI Assistant Creation Flow:
 
-
 https://github.com/user-attachments/assets/f6439c25-fc2b-40d0-a8c0-8a7563e851d5
-
-
 
 You can also deploy via a full screen template experience:
 
-
-
 https://github.com/user-attachments/assets/e0633aa5-d028-430d-81b1-fd32cc3cdc66
-
 
 ## Overview
 

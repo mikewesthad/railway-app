@@ -7,6 +7,8 @@ if (!process.env.RAILWAY_API_KEY) {
   throw new Error("RAILWAY_API_KEY is not set");
 }
 
+// To avoid burning through API quota while codegening in watch mode, this
+// provides a way to use a cached copy of the railway schema.
 const schema =
   process.env.LIVE_SCHEMA === "true"
     ? {

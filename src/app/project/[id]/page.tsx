@@ -22,6 +22,7 @@ const PROJECT_QUERY = gql(`
       updatedAt
       deletedAt
       isPublic
+      # TODO: handle pagination and loading more results.
       deployments(first: 10) {
         edges {
           node {
@@ -30,6 +31,7 @@ const PROJECT_QUERY = gql(`
           }
         }
       }
+      # TODO: this should be paginated too.
       services {
         edges {
           node {
@@ -57,7 +59,7 @@ export default function ProjectPage() {
     variables: { id: params.id },
     // TODO: this is a terrible hack to get a live list of deployments. This
     // should use a subscription to only query the updates needed.
-    pollInterval: 5000,
+    pollInterval: 3500,
   });
 
   const project = data?.project;
@@ -101,9 +103,9 @@ export default function ProjectPage() {
               </div>
             </div>
 
-            {project.deployments.edges.length > 0 && (
-              <div className={styles.section}>
-                <h2>Deployments</h2>
+            <div className={styles.section}>
+              <h2>Deployments</h2>
+              {project.deployments.edges.length > 0 ? (
                 <ul className={styles.deploymentList}>
                   {project.deployments.edges
                     .slice()
@@ -114,8 +116,13 @@ export default function ProjectPage() {
                       </li>
                     ))}
                 </ul>
-              </div>
-            )}
+              ) : (
+                <p>
+                  No deployments yet. Please wait a couple seconds if you&apos;ve just created your
+                  project and your deployment should load in.
+                </p>
+              )}
+            </div>
 
             <div className={styles.section}>
               <h2>Services</h2>

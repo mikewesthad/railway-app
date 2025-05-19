@@ -37,30 +37,33 @@ export default function WorkspacePage() {
   });
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        {loading ? <LoadingSpinner /> : null}
-        {error ? <p>Error: {error.message}</p> : null}
-        {data ? (
-          <>
-            <div className={styles.header}>
-              <h1>{data.workspace.name}</h1>
-              <ButtonLink
-                variant="primary"
-                href={`/create?teamId=${data.workspace.team ? data.workspace.team.id : ""}`}
-                leftIcon={<FaPlus />}
-              >
-                Create Project
-              </ButtonLink>
-            </div>
-            <div className={styles.projectGrid}>
-              {data.workspace.team?.projects?.edges.map((project) => (
+    <main className={styles.main}>
+      {loading ? <LoadingSpinner /> : null}
+      {error ? <p>Error: {error.message}</p> : null}
+      {data ? (
+        <>
+          <div className={styles.header}>
+            <h1>{data.workspace.name}</h1>
+            <ButtonLink
+              variant="primary"
+              href={`/create?teamId=${data.workspace.team ? data.workspace.team.id : ""}`}
+              leftIcon={<FaPlus />}
+            >
+              Create Project
+            </ButtonLink>
+          </div>
+          <div className={styles.projectGrid}>
+            {data.workspace.team?.projects?.edges &&
+            data.workspace.team?.projects?.edges.length > 0 ? (
+              data.workspace.team?.projects?.edges.map((project) => (
                 <ProjectCard key={project.node.id} project={project.node} />
-              ))}
-            </div>
-          </>
-        ) : null}
-      </main>
-    </div>
+              ))
+            ) : (
+              <p>No projects found. Try creating one!</p>
+            )}
+          </div>
+        </>
+      ) : null}
+    </main>
   );
 }

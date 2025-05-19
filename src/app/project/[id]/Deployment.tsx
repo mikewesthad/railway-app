@@ -2,11 +2,12 @@
 
 import { gql } from "@/__generated__/gql";
 import { DeploymentStatus as DeploymentStatusEnum } from "@/__generated__/graphql";
-import { DeploymentStatus } from "@/app/workspaces/[id]/DeploymentStatus";
+import { DeploymentStatus } from "@/app/project/[id]/DeploymentStatus";
 import styles from "./Deployment.module.css";
 import { ProjectPageDeploymentInfoFragment } from "@/__generated__/graphql";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
+// Mapping for ordering deployments by their status.
 const DeploymentStatusOrder = {
   [DeploymentStatusEnum.Success]: 0,
   [DeploymentStatusEnum.Failed]: 1,
@@ -37,6 +38,7 @@ export function sortDeployments(
 
   return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
 }
+
 gql(`
   fragment ProjectPageDeploymentInfo on Deployment {
     id
