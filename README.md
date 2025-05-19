@@ -5,6 +5,16 @@ This is my take on the prompt:
 
 The advances in AI tooling likely mean more people trying to deploy their code to production (e.g. vibe coding). The main take in this app is that AI tooling can help make it easier to get started, so this introduces a Railway AI assistant creation flow.
 
+## Demos
+
+AI Assistant Creation Flow:
+
+![](./docs/ai-deploy.mp4)
+
+You can also deploy via a full screen template experience:
+
+![](./docs/template-deploy.mp4)
+
 ## Overview
 
 Tools:
