@@ -1,12 +1,54 @@
-# Railway App
+# Railway Creation Flow
 
 This is my take on the prompt: 
 > Build an application to spin up and spin down a container using our GQL API.
 
-## Tech Stack
+The advances in AI tooling likely mean more people trying to deploy their code to production (e.g. vibe coding). The main take in this app is that AI tooling can help make it easier to get started, so this introduces a Railway AI assistant creation flow.
 
+## Overview
+
+Tools:
 - Next.js
 - Apollo
+- Auth0
+- Prisma
+
+Project structure:
+- `src/` - source code for the Next app
+  - `prisma/` - generated DB client
+  - `components/` - mini design library of shared components
+  - `app/`
+    - `api/` - server APIs
+    - everything else :D
+- `scripts/` - test scripts for AI tooling development
+- `codegen/` - source for codegen config for typing Railway's API + the Next GQL API calls
+- `primsa/` - migrations & prisma config
+
+This is more of a proof of concept than a production-ready app, so there are a few things that I would improve to take this to production, e.g.
+- responsive design pass
+- move Next server's API from REST to GQL
+- rate limiting
+- etc.
+
+## Setup
+
+Make sure your environment has the following env variables:
+
+```
+# Used for gql codegen
+RAILWAY_API_KEY=
+# Prisma DB
+DATABASE_URL=
+# AI tooling
+OPENAI_API_KEY=
+# Auth0 config
+AUTH0_SECRET=
+APP_BASE_URL=
+AUTH0_DOMAIN=
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
+```
+
 
 ## Development 
 
@@ -17,12 +59,3 @@ pnpm dev
 ```
 
 And then open [http://localhost:3000](http://localhost:3000).
-
-## Deploying
-
-This is hooked up to a railway deploy which runs:
-
-```bash
-pnpm build
-pnpm start
-```
