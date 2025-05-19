@@ -2,7 +2,7 @@
 
 import { gql } from "@/__generated__/gql";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import styles from "./page.module.css";
 import { Modal } from "@/components/Modal";
 import { CreatePageTemplatesQuery, TemplateCardFragment } from "@/__generated__/graphql";
@@ -41,6 +41,14 @@ function useSortedTemplates(templates: CreatePageTemplatesQuery["templates"]["ed
 }
 
 export default function TemplatePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TemplatePageContent />
+    </Suspense>
+  );
+}
+
+function TemplatePageContent() {
   const teamId = useTeamId();
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateCardFragment | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

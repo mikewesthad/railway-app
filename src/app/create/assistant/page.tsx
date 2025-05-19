@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { BackButtonLink } from "../components/BackButtonLink";
 import styles from "./page.module.css";
 import { ImMagicWand } from "react-icons/im";
@@ -23,6 +23,14 @@ function AssistantMessage({ children }: { children: React.ReactNode }) {
 }
 
 export default function AssistantPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AssistantPageContent />
+    </Suspense>
+  );
+}
+
+function AssistantPageContent() {
   const teamId = useTeamId();
 
   const [aiPrompt, setAiPrompt] = useState("");

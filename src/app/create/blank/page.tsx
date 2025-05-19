@@ -4,8 +4,17 @@ import styles from "./page.module.css";
 import { BackButtonLink } from "../components/BackButtonLink";
 import { Button } from "@/components/Button";
 import { useTeamId } from "../useTeamId";
+import { Suspense } from "react";
 
 export default function BlankProjectPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlankProjectContent />
+    </Suspense>
+  );
+}
+
+function BlankProjectContent() {
   const teamId = useTeamId();
 
   return (

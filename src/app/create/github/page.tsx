@@ -4,8 +4,17 @@ import { BackButtonLink } from "../components/BackButtonLink";
 import { Button } from "@/components/Button";
 import styles from "./page.module.css";
 import { useTeamId } from "../useTeamId";
+import { Suspense } from "react";
 
 export default function GithubPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GithubPageContent />
+    </Suspense>
+  );
+}
+
+function GithubPageContent() {
   const teamId = useTeamId();
 
   return (

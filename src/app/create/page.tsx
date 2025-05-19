@@ -6,6 +6,7 @@ import { IoGrid } from "react-icons/io5";
 import { FaGithub, FaCode } from "react-icons/fa";
 import Link from "next/link";
 import { useTeamId } from "./useTeamId";
+import { Suspense } from "react";
 
 function Card({
   href,
@@ -28,6 +29,14 @@ function Card({
 }
 
 export default function CreatePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreatePageContent />
+    </Suspense>
+  );
+}
+
+function CreatePageContent() {
   const teamId = useTeamId();
 
   return (
