@@ -9,6 +9,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useTemplateRecommendation } from "./useTemplateRecommendation";
 import { TemplateCard } from "../components/TemplateCard";
 import { useTeamId } from "../useTeamId";
+import { IoMdSend } from "react-icons/io";
 
 function AssistantMessage({ children }: { children: React.ReactNode }) {
   return (
@@ -77,24 +78,27 @@ function AssistantPageContent() {
               </button>
             </div>
             <Button
+              variant="primary"
               className={styles.startButton}
               onClick={handleGetRecommendation}
               disabled={loading}
+              leftIcon={loading ? <LoadingSpinner size={20} /> : <IoMdSend />}
             >
-              <ImMagicWand />
-              <span>Send</span>
+              Send
             </Button>
           </div>
         </div>
         <div className={styles.responseContainer}>
-          {loading && (
+          {loading ? (
             <AssistantMessage>
-              <LoadingSpinner />
-              <span>Hold tight, we&apos;re working on it...</span>
+              <div className={styles.assistantMessageLoading}>
+                <LoadingSpinner />
+                <span>Hold tight, we&apos;re working on it...</span>
+              </div>
             </AssistantMessage>
-          )}
-          {error && <p>{error}</p>}
-          {data && (
+          ) : null}
+          {error ? <p>{error}</p> : null}
+          {data ? (
             <div className={styles.aiResponse}>
               {data.template ? (
                 <>
@@ -103,20 +107,15 @@ function AssistantPageContent() {
                       I recommend <strong>{data.template.name}</strong>. {data.reason}
                     </p>
                   </AssistantMessage>
-                  {loading ? (
-                    <div className={styles.spinnerContainer}>
-                      <LoadingSpinner />
-                      <p>Loading template details...</p>
-                    </div>
-                  ) : data.template ? (
+                  <div className={styles.templateCardContainer}>
                     <TemplateCard template={data.template} teamId={teamId} />
-                  ) : null}
+                  </div>
                 </>
               ) : (
                 <p>{data.reason}</p>
               )}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </main>
