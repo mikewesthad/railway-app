@@ -6,23 +6,66 @@
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
-  color: white;
-  background-color: var(--pink-500);
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
-.button:hover {
-  background-color: var(--pink-600);
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .button:focus {
-  outline: 2px solid var(--pink-700);
   outline-offset: 2px;
+  outline: 2px solid var(--gray-700);
 }
 
-.button:active {
+.default {
+  background-color: var(--gray-200);
+}
+
+.default:hover {
+  background-color: var(--gray-300);
+}
+
+.default:focus {
+  outline-color: var(--gray-300);
+}
+
+.default:active {
+  background-color: var(--gray-400);
+}
+
+.primary {
+  background-color: var(--pink-500);
+}
+
+.primary:hover {
+  background-color: var(--pink-600);
+}
+
+.primary:focus {
+  outline-color: var(--pink-700);
+}
+
+.primary:active {
   background-color: var(--pink-700);
+}
+
+.danger {
+  background-color: var(--red-500);
+}
+
+.danger:hover {
+  background-color: var(--red-600);
+}
+
+.danger:focus {
+  outline-color: var(--red-700);
+}
+
+.danger:active {
+  background-color: var(--red-700);
 }

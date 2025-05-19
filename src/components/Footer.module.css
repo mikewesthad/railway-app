@@ -3,4 +3,19 @@
   padding: 16px;
   text-align: center;
   flex-shrink: 0;
+  font-size: 12px;
+  color: var(--gray-800);
+}
+
+.icon {
+  color: var(--pink-800);
+}
+
+.footer a {
+  color: var(--gray-800);
+}
+
+.footer a:hover {
+  color: var(--pink-800);
+  text-decoration: underline;
 }

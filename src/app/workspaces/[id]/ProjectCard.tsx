@@ -1,13 +1,16 @@
 import styles from "./ProjectCard.module.css";
 import { gql } from "@/__generated__/gql";
-import { FragmentType, useFragment } from "@/__generated__/fragment-masking";
 import { DeploymentStatus } from "./DeploymentStatus";
+import Link from "next/link";
+import { ProjectCardFragment } from "@/__generated__/graphql";
+import { Pill } from "@/components/Pill";
 
-const PROJECT_CARD_FRAGMENT = gql(`
+gql(`
   fragment ProjectCard on Project {
     id
     createdAt
     updatedAt
+    deletedAt
     description
     name
     isPublic
@@ -42,22 +45,21 @@ const PROJECT_CARD_FRAGMENT = gql(`
 `);
 
 interface ProjectCardProps {
-  project: FragmentType<typeof PROJECT_CARD_FRAGMENT>;
+  project: ProjectCardFragment;
 }
 
-export function ProjectCard(props: ProjectCardProps) {
-  const project = useFragment(PROJECT_CARD_FRAGMENT, props.project);
+export function ProjectCard({ project }: ProjectCardProps) {
   const deployment = project.deployments?.edges?.[0]?.node;
 
   return (
-    <div className={styles.card}>
+    <Link href={`/project/${project.id}`} className={styles.card}>
       <div className={styles.header}>
         <h2 className={styles.title}>{project.name}</h2>
+        {project.deletedAt && <Pill variant="red">Deleted</Pill>}
         <span className={styles.date}>
           Updated {new Date(project.updatedAt).toLocaleDateString()}
         </span>
       </div>
-      <p className={styles.description}>{project.description}</p>
       {deployment && <DeploymentStatus status={deployment.status} />}
       {deployment?.staticUrl && (
         <a
@@ -65,6 +67,7 @@ export function ProjectCard(props: ProjectCardProps) {
           className={styles.deploymentLink}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
         >
           View Deployment
         </a>
@@ -91,6 +94,6 @@ export function ProjectCard(props: ProjectCardProps) {
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

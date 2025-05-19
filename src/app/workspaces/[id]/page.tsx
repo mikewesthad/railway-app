@@ -5,10 +5,12 @@ import { useQuery } from "@apollo/client";
 import styles from "./page.module.css";
 import { ProjectCard } from "./ProjectCard";
 import { ButtonLink } from "@/components/ButtonLink";
+import { useParams } from "next/navigation";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const PROJECTS = gql(`
-  query MyProjects {
-    workspace(workspaceId: "14fc15eb-b61d-47bc-93b0-385d4d2b244b") {
+  query MyProjects($workspaceId: String!) {
+    workspace(workspaceId: $workspaceId) {
       name
       team {
         id
@@ -25,30 +27,20 @@ const PROJECTS = gql(`
   }
 `);
 
-// query marketplace {
-//   templates(first: 10, recommended: true) {
-//     edges {
-//       node {
-//         id
-//         description
-//         name
-//         # readme
-//         category
-//         health
-//       }
-//     }
-//   }
-// }
-
 export default function WorkspacePage() {
-  const { data, loading, error } = useQuery(PROJECTS);
+  const params = useParams<{ id: string }>();
+  const { data, loading, error } = useQuery(PROJECTS, {
+    variables: {
+      workspaceId: params.id,
+    },
+  });
 
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
-        {data && (
+        {loading ? <LoadingSpinner /> : null}
+        {error ? <p>Error: {error.message}</p> : null}
+        {data ? (
           <>
             <div className={styles.header}>
               <h1>{data.workspace.name}</h1>
@@ -60,7 +52,7 @@ export default function WorkspacePage() {
               ))}
             </div>
           </>
-        )}
+        ) : null}
       </main>
     </div>
   );

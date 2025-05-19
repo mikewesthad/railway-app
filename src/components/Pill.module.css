@@ -1,0 +1,19 @@
+.pill {
+  background: var(--gray-200);
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  color: #e5e7eb;
+}
+
+.default {
+  background: var(--gray-200);
+  color: var(--gray-800);
+  border: 1px solid var(--gray-300);
+}
+
+.red {
+  background: var(--red-200);
+  color: var(--red-800);
+  border: 1px solid var(--red-300);
+}
