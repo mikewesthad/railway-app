@@ -1,3 +1,10 @@
+/**
+ * This is the API route for the AI powered template recommendation endpoint. It
+ * uses the OpenAI API to recommend a template based on the user's request.
+ *
+ * TODO: move to GQL.
+ */
+
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { templateData } from "./templateData";
@@ -81,6 +88,9 @@ ${templateData}
 
 const formattedTemplateList = buildFormattedTemplateListForPrompt(templateData);
 
+/**
+ * Create a template recommendation for a user's prompt.
+ */
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json();

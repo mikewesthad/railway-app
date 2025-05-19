@@ -25,6 +25,7 @@ Project structure:
 - `primsa/` - migrations & prisma config
 
 This is more of a proof of concept than a production-ready app, so there are a few things that I would improve to take this to production, e.g.
+- supporting multiple workspaces
 - responsive design pass
 - move Next server's API from REST to GQL
 - rate limiting

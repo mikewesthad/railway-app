@@ -5,6 +5,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+/**
+ * This is a proof-of-concept for AI debugging of logs. It was cut for time,
+ * but the idea is to use the OpenAI API to analyze the logs and provide a
+ * one-sentence explanation of what failed and what to do to fix it using
+ * Railway terminology. It generated pretty decent results.
+ */
 export async function POST(request: Request) {
   try {
     const { logs } = await request.json();

@@ -16,6 +16,10 @@ const getRailwayToken = async () => {
   return dbUser?.railwayToken?.value ?? null;
 };
 
+/**
+ * This API simply forwards GQL requests along to Railway's API, using the
+ * user's provided token
+ */
 export async function POST(request: Request) {
   const railwayToken = await getRailwayToken();
   if (!railwayToken) {

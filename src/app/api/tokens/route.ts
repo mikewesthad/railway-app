@@ -1,7 +1,18 @@
+/**
+ * This API is used to manage the user's Railway token. It is used to store
+ * the token in the database and to delete the token from the database.
+ *
+ * TODO: move to GQL.
+ */
+
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth0 } from "@/lib/auth0";
 
+/**
+ * Get the user's Railway token. We don't expose the token value back to the
+ * client, but instead, return whether it is present.
+ */
 export async function GET() {
   try {
     const session = await auth0.getSession();
@@ -31,6 +42,9 @@ export async function GET() {
   }
 }
 
+/**
+ * Store a user's Railway token.
+ */
 export async function POST(req: Request) {
   try {
     const session = await auth0.getSession();
@@ -87,6 +101,9 @@ export async function POST(req: Request) {
   }
 }
 
+/**
+ * Delete a user's Railway token.
+ */
 export async function DELETE() {
   try {
     const session = await auth0.getSession();
