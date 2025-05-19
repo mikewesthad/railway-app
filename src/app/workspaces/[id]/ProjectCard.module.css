@@ -88,6 +88,12 @@
   object-fit: contain;
 }
 
+.deployments {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .deploymentLink {
   display: flex;
   align-items: center;

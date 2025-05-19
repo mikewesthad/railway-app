@@ -81,16 +81,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
           Updated {new Date(project.updatedAt).toLocaleDateString()}
         </span>
       </div>
-      {deployments.length > 0 ? (
-        deployments.map((d) => (
-          <Link key={d.id} href={d.fullUrl} className={styles.deploymentLink} target="_blank">
-            <FaLink />
-            <span>{d.url}</span>
-          </Link>
-        ))
-      ) : (
-        <span>No deployments</span>
-      )}
+      <div className={styles.deployments}>
+        {deployments.length > 0 ? (
+          deployments.map((d) => (
+            <Link key={d.id} href={d.fullUrl} className={styles.deploymentLink} target="_blank">
+              <FaLink />
+              <span>{d.url}</span>
+            </Link>
+          ))
+        ) : (
+          <span>No deployments</span>
+        )}
+      </div>
       <div className={styles.serviceList}>
         {project.services.edges.slice(0, maxServicesToDisplay).map((service) => (
           <span key={service.node.id} className={styles.service}>
