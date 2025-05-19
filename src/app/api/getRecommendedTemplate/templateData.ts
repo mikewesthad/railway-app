@@ -1,3 +1,10 @@
+/**
+ * This is a cached copy of the template data from the Railway API. This was
+ * cached in the source code as a corner cut for time.
+ *
+ * TODO: server can maintain its own cache in Redis that it refetches
+ * occasionally, or better yet, sync the data to a vector database.
+ */
 export const templateData = [
   {
     __typename: "Template",

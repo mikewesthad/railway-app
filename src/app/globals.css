@@ -79,6 +79,30 @@
   --yellow-800: hsl(44, 78%, 80%);
   --yellow-900: hsl(44, 78%, 90%);
   --yellow-950: hsl(44, 75%, 97%);
+
+  --space-unit: 8px;
+  --space-half: calc(0.5 * var(--space-unit));
+  --space-1: calc(1 * var(--space-unit));
+  --space-2: calc(2 * var(--space-unit));
+  --space-3: calc(3 * var(--space-unit));
+  --space-4: calc(4 * var(--space-unit));
+  --space-5: calc(5 * var(--space-unit));
+  --space-6: calc(6 * var(--space-unit));
+
+  --font-size-base: 16px;
+  --font-size-scale: 1.1;
+  --font-size-small: calc(pow(var(--font-size-scale), -1) * var(--font-size-base));
+  --font-size-p: calc(pow(var(--font-size-scale), 0) * var(--font-size-base));
+  --font-size-h6: calc(pow(var(--font-size-scale), 1) * var(--font-size-base));
+  --font-size-h5: calc(pow(var(--font-size-scale), 2) * var(--font-size-base));
+  --font-size-h4: calc(pow(var(--font-size-scale), 3) * var(--font-size-base));
+  --font-size-h3: calc(pow(var(--font-size-scale), 4) * var(--font-size-base));
+  --font-size-h2: calc(pow(var(--font-size-scale), 5) * var(--font-size-base));
+  --font-size-h1: calc(pow(var(--font-size-scale), 6) * var(--font-size-base));
+}
+
+html {
+  font-size: var(--font-size-base);
 }
 
 html,

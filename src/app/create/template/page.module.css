@@ -17,18 +17,34 @@
   padding: 24px;
   transition: all 0.2s ease;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.templateCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--gray-300) 1px, transparent 1px);
+  background-size: 18px 18px;
+  z-index: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.templateCard:hover::before {
+  opacity: 0.5;
 }
 
 .templateCard:hover {
   background: var(--gray-200);
   border-color: var(--gray-300);
-  transform: translateY(-2px);
 }
 
 .templateCard.selected {
-  background: var(--blue-100);
-  border-color: var(--blue-300);
-  transform: translateY(-2px);
+  background: var(--pink-100);
+  border-color: var(--pink-300);
 }
 
 .templateCard h2 {

@@ -103,7 +103,14 @@ function TemplatePageContent() {
       )}
 
       {selectedTemplate && teamId ? (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={"Deploy Template"}>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setSelectedTemplate(null);
+            setIsModalOpen(false);
+          }}
+          title={"Deploy Template"}
+        >
           <TemplateCard template={selectedTemplate} teamId={teamId} />
         </Modal>
       ) : null}
