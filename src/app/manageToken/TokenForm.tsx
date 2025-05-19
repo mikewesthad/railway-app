@@ -41,7 +41,7 @@ export function TokenForm({ onTokenSaved, className }: TokenFormProps) {
   return (
     <div className={`${styles.tokenForm} ${className}`}>
       <h2>Enter Your Railway Token</h2>
-      <p>Please enter your Railway API token to continue.</p>
+      <p>Please enter your Railway account API token to continue.</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
