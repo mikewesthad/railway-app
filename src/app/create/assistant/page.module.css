@@ -1,7 +1,6 @@
 .main {
   display: flex;
   flex-direction: column;
-  align-items: start;
   gap: 16px;
 }
 
@@ -12,29 +11,22 @@
   gap: 16px;
 }
 
-.assistantContainer {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
+.backButton {
+  align-self: start;
 }
 
-.chatContainer {
+.spinnerContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 8px;
+}
+
+.responseContainer {
   display: flex;
   flex-direction: column;
-  height: 500px;
-  background: var(--background-primary);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-}
-
-.welcomeMessage {
-  padding: 1.5rem;
-  color: var(--text-secondary);
-}
-
-.welcomeMessage p {
-  margin: 0 0 1rem 0;
+  align-items: start;
+  gap: 16px;
 }
 
 .examplePrompts {
@@ -97,74 +89,55 @@
   border-bottom-left-radius: 0.25rem;
 }
 
-.messageContent {
-  word-break: break-word;
-}
-
-.typingIndicator {
+.inputContainer {
+  width: 100%;
   display: flex;
-  gap: 0.25rem;
-  padding: 0.5rem;
+  gap: 12px;
+  align-items: flex-start;
 }
 
-.typingIndicator span {
-  width: 8px;
-  height: 8px;
-  background-color: var(--gray-400);
-  border-radius: 50%;
-  animation: typing 1s infinite ease-in-out;
-}
-
-.typingIndicator span:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-.typingIndicator span:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.typingIndicator span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes typing {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
+.inputWrapper {
+  position: relative;
+  flex: 1;
 }
 
 .chatInput {
+  width: 100%;
   display: flex;
-  gap: 0.5rem;
-  padding: 1rem;
-  background-color: var(--background-primary);
-  border-top: 1px solid var(--border-color);
+  gap: 12px;
+  flex-direction: column;
+}
+
+.startButton {
+  display: flex;
+  align-self: end;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
 }
 
 .promptInput {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 1.5rem;
-  font-size: 0.95rem;
-  background-color: var(--background-primary);
-  color: var(--text-primary);
+  resize: none;
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--gray-100);
+  color: var(--foreground);
   transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  min-height: 150px;
 }
 
 .promptInput:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-color-light);
+  border-color: var(--gray-300);
+  background-color: var(--gray-200);
 }
 
 .promptInput:disabled {
-  background-color: var(--gray-100);
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .recommendButton {
@@ -210,4 +183,175 @@
 .recommendButton:disabled {
   background-color: var(--disabled-color);
   cursor: not-allowed;
+}
+
+.inputAndPrompts {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+}
+
+.examplePromptsRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.examplePromptsContainer {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.examplePromptsLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.examplePromptsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.examplePill {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.examplePill:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.examplePill:active {
+  transform: translateY(0);
+}
+
+.inlineExamples {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  pointer-events: none;
+  align-items: center;
+}
+
+.exampleHint {
+  color: var(--gray-500);
+  font-size: 0.85rem;
+  margin-right: 4px;
+  pointer-events: none;
+}
+
+.inlineExample {
+  color: var(--gray-700);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  backdrop-filter: blur(4px);
+}
+
+.inlineExample:hover {
+  background: var(--gray-200);
+  border: 1px solid var(--gray-300);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.inlineExample:active {
+  transform: translateY(0);
+}
+
+/* Remove old styles that are no longer needed */
+.examplePromptsContainer,
+.examplePromptsLabel,
+.examplePromptsGrid,
+.examplePill {
+  display: none;
+}
+
+.templateDetails {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--gray-100);
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+}
+
+.templateDetails h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+}
+
+.templateDetails p {
+  margin: 0 0 16px 0;
+  color: var(--gray-700);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tag {
+  background: var(--gray-200);
+  color: var(--gray-700);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.languages {
+  margin-bottom: 16px;
+}
+
+.languages h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: var(--gray-700);
+}
+
+.languageList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.language {
+  background: var(--gray-200);
+  color: var(--gray-700);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.deployButton {
+  margin-top: 16px;
 }

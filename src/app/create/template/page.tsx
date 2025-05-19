@@ -12,6 +12,7 @@ import {
   CreatePageTemplateQuery,
 } from "@/__generated__/graphql";
 import { BackButtonLink } from "../components/BackButtonLink";
+
 const templatesQuery = gql(`
   query CreatePageTemplates {
     # TODO, this should use pagination and be done on the server, but there 

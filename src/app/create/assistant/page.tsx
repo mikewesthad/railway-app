@@ -2,13 +2,49 @@
 import { useState } from "react";
 import { BackButtonLink } from "../components/BackButtonLink";
 import styles from "./page.module.css";
+import { ImMagicWand } from "react-icons/im";
+import { Button } from "@/components/Button";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { gql } from "@/__generated__/gql";
+import { useQuery } from "@apollo/client";
+import { CreatePageTemplateQuery } from "@/__generated__/graphql";
+
+const templateQuery = gql(`
+  query CreatePageTemplate($code: String) {
+    template(code: $code) {
+      id
+      name
+      description
+      category
+      health
+      readme
+      tags
+      languages
+      guides {
+        post
+        video
+      }
+      serializedConfig
+    }
+  }
+`);
 
 export default function AssistantPage() {
   const [aiPrompt, setAiPrompt] = useState("");
   const [isGettingRecommendation, setIsGettingRecommendation] = useState(false);
-  const [chatHistory, setChatHistory] = useState<
-    Array<{ type: "user" | "assistant"; content: string }>
-  >([]);
+  const [aiResponse, setAiResponse] = useState<null | {
+    templateId: string | null;
+    reason: string;
+  }>(null);
+
+  const { data: templateData, loading: templateLoading } = useQuery<CreatePageTemplateQuery>(
+    templateQuery,
+    {
+      variables: { code: aiResponse?.templateId ?? undefined },
+      skip: !aiResponse?.templateId,
+    }
+  );
+
   const onTemplateSelect = (templateId: string) => {
     console.log("onTemplateSelect", templateId);
   };
@@ -17,7 +53,7 @@ export default function AssistantPage() {
     if (!aiPrompt.trim()) return;
 
     const userMessage = aiPrompt.trim();
-    setChatHistory((prev) => [...prev, { type: "user", content: userMessage }]);
+    setAiResponse(null);
     setAiPrompt("");
     setIsGettingRecommendation(true);
 
@@ -33,16 +69,18 @@ export default function AssistantPage() {
       const data = await response.json();
 
       // Add assistant's response to chat history
-      setChatHistory((prev) => [
-        ...prev,
-        {
-          type: "assistant",
-          content:
-            data.templateId === "null"
-              ? "I couldn't find a perfect template for your needs. Try being more specific or browse the templates below."
-              : data.reason,
-        },
-      ]);
+      setAiResponse(
+        data.templateId === "null"
+          ? {
+              templateId: null,
+              reason:
+                "I couldn't find a perfect template for your needs. Try being more specific or browse the templates below.",
+            }
+          : {
+              templateId: data.templateId,
+              reason: data.reason,
+            }
+      );
 
       // If we got a template ID, select that template
       if (data.templateId && data.templateId !== "null") {
@@ -50,13 +88,10 @@ export default function AssistantPage() {
       }
     } catch (error) {
       console.error("Failed to get recommendation:", error);
-      setChatHistory((prev) => [
-        ...prev,
-        {
-          type: "assistant",
-          content: "Sorry, I encountered an error while trying to help you. Please try again.",
-        },
-      ]);
+      setAiResponse({
+        templateId: null,
+        reason: "Sorry, I encountered an error while trying to help you. Please try again.",
+      });
     } finally {
       setIsGettingRecommendation(false);
     }
@@ -70,120 +105,107 @@ export default function AssistantPage() {
 
   return (
     <main className={styles.main}>
-      <BackButtonLink href="/create" />
+      <BackButtonLink className={styles.backButton} href="/create" />
       <h1>Railway Assistant</h1>
       <div className={styles.content}>
-        <div className={styles.assistantContainer}>
-          <div className={styles.chatContainer}>
-            {chatHistory.length === 0 ? (
-              <div className={styles.welcomeMessage}>
-                <p>
-                  Hi! I&apos;m your template assistant. Tell me what you want to build, and
-                  I&apos;ll help you find the right template.
-                </p>
-                <p>Try one of these examples:</p>
-                <div className={styles.examplePrompts}>
-                  <button
-                    onClick={() => handleExamplePrompt("a messaging app")}
-                    className={styles.exampleButton}
-                  >
-                    a messaging app
-                  </button>
-                  <button
-                    onClick={() => handleExamplePrompt("an AI knowledge base for my company")}
-                    className={styles.exampleButton}
-                  >
-                    an AI knowledge base for my company
-                  </button>
-                  <button
-                    onClick={() => handleExamplePrompt("I only know python")}
-                    className={styles.exampleButton}
-                  >
-                    I only know python
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className={styles.chatMessages}>
-                {chatHistory.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`${styles.message} ${
-                      message.type === "user" ? styles.userMessage : styles.assistantMessage
-                    }`}
-                  >
-                    <div className={styles.messageContent}>{message.content}</div>
-                  </div>
-                ))}
-                {isGettingRecommendation && (
-                  <div className={`${styles.message} ${styles.assistantMessage}`}>
-                    <div className={styles.messageContent}>
-                      <div className={styles.typingIndicator}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className={styles.chatInput}>
-              <input
-                type="text"
-                value={aiPrompt}
-                onChange={(e) => setAiPrompt(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleGetRecommendation();
-                  }
-                }}
-                placeholder="Describe what you want to build..."
-                className={styles.promptInput}
-                disabled={isGettingRecommendation}
-              />
+        <p>Describe what you want to build, and we&apos;ll scaffold it for you.</p>
+        <div className={styles.chatInput}>
+          <div className={styles.inputWrapper}>
+            <textarea
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="Describe what you want to build..."
+              className={styles.promptInput}
+              disabled={isGettingRecommendation}
+            />
+            <div className={styles.inlineExamples}>
+              <span className={styles.exampleHint}>Not sure what to build?</span>
               <button
-                onClick={handleGetRecommendation}
-                disabled={isGettingRecommendation || !aiPrompt.trim()}
-                className={styles.recommendButton}
+                onClick={() => setAiPrompt("a messaging app")}
+                className={styles.inlineExample}
               >
-                {isGettingRecommendation ? (
-                  <span className={styles.buttonContent}>
-                    <span className={styles.spinner}></span>
-                    Thinking...
-                  </span>
-                ) : (
-                  <span className={styles.buttonContent}>
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M22 2L11 13"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M22 2L15 22L11 13L2 9L22 2Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    Send
-                  </span>
-                )}
+                a messaging app
+              </button>
+              <button
+                onClick={() => setAiPrompt("an AI knowledge base for my company")}
+                className={styles.inlineExample}
+              >
+                an AI knowledge base
+              </button>
+              <button
+                onClick={() => setAiPrompt("I only know python")}
+                className={styles.inlineExample}
+              >
+                I only know python
               </button>
             </div>
+            <Button
+              className={styles.startButton}
+              onClick={handleGetRecommendation}
+              disabled={isGettingRecommendation}
+            >
+              <ImMagicWand />
+              <span>Start</span>
+            </Button>
           </div>
+        </div>
+        <div className={styles.responseContainer}>
+          {isGettingRecommendation && (
+            <div className={styles.spinnerContainer}>
+              <LoadingSpinner />
+              <p>Hold tight, we&apos;re working on it...</p>
+            </div>
+          )}
+          {aiResponse && (
+            <div className={styles.aiResponse}>
+              {aiResponse.templateId ? (
+                <>
+                  <p>{aiResponse.reason}</p>
+                  {templateLoading ? (
+                    <div className={styles.spinnerContainer}>
+                      <LoadingSpinner />
+                      <p>Loading template details...</p>
+                    </div>
+                  ) : templateData?.template ? (
+                    <div className={styles.templateDetails}>
+                      <h2>{templateData.template.name}</h2>
+                      <p>{templateData.template.description || "No description available"}</p>
+                      {templateData.template.tags && templateData.template.tags.length > 0 && (
+                        <div className={styles.tags}>
+                          {templateData.template.tags.map((tag) => (
+                            <span key={tag} className={styles.tag}>
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {templateData.template.languages &&
+                        templateData.template.languages.length > 0 && (
+                          <div className={styles.languages}>
+                            <h3>Languages</h3>
+                            <div className={styles.languageList}>
+                              {templateData.template.languages.map((language) => (
+                                <span key={language} className={styles.language}>
+                                  {language}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      <Button
+                        onClick={() => onTemplateSelect(templateData.template.id)}
+                        className={styles.deployButton}
+                      >
+                        Deploy Template
+                      </Button>
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                <p>{aiResponse.reason}</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </main>
