@@ -84,7 +84,9 @@ export default function Home() {
           <h1>Railway App</h1>
           <div className={styles.logIn}>
             <div>Please log in to get started.</div>
-            <ButtonLink href="/auth/login">Login</ButtonLink>
+            <ButtonLink variant="primary" href="/auth/login">
+              Login
+            </ButtonLink>
           </div>
         </main>
       </div>

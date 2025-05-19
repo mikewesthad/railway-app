@@ -6,7 +6,9 @@ import styles from "./page.module.css";
 import { ImMagicWand } from "react-icons/im";
 import { Button } from "@/components/Button";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { useTemplateRecommendation } from "./hooks/useTemplateRecommendation";
+import { useTemplateRecommendation } from "./useTemplateRecommendation";
+import { TemplateCard } from "../components/TemplateCard";
+import { useTeamId } from "../useTeamId";
 
 function AssistantMessage({ children }: { children: React.ReactNode }) {
   return (
@@ -21,12 +23,10 @@ function AssistantMessage({ children }: { children: React.ReactNode }) {
 }
 
 export default function AssistantPage() {
+  const teamId = useTeamId();
+
   const [aiPrompt, setAiPrompt] = useState("");
   const { loading, error, data, getRecommendation } = useTemplateRecommendation();
-
-  const onTemplateSelect = (templateId: string) => {
-    console.log("onTemplateSelect", templateId);
-  };
 
   const handleGetRecommendation = async () => {
     await getRecommendation(aiPrompt);
@@ -34,7 +34,7 @@ export default function AssistantPage() {
 
   return (
     <main className={styles.main}>
-      <BackButtonLink className={styles.backButton} href="/create" />
+      <BackButtonLink className={styles.backButton} href={`/create?teamId=${teamId}`} />
       <h1>Railway Assistant</h1>
       <div className={styles.content}>
         <div className={styles.chatInput}>
@@ -101,10 +101,7 @@ export default function AssistantPage() {
                       <p>Loading template details...</p>
                     </div>
                   ) : data.template ? (
-                    <TemplateCard
-                      template={data.template}
-                      teamId={workspaceData?.workspace?.team?.id}
-                    />
+                    <TemplateCard template={data.template} teamId={teamId} />
                   ) : null}
                 </>
               ) : (

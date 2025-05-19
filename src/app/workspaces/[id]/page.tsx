@@ -7,6 +7,7 @@ import { ProjectCard } from "./ProjectCard";
 import { ButtonLink } from "@/components/ButtonLink";
 import { useParams } from "next/navigation";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { FaPlus } from "react-icons/fa6";
 
 const PROJECTS = gql(`
   query MyProjects($workspaceId: String!) {
@@ -44,7 +45,13 @@ export default function WorkspacePage() {
           <>
             <div className={styles.header}>
               <h1>{data.workspace.name}</h1>
-              <ButtonLink href="/create">Create Project</ButtonLink>
+              <ButtonLink
+                variant="primary"
+                href={`/create?teamId=${data.workspace.team ? data.workspace.team.id : ""}`}
+                leftIcon={<FaPlus />}
+              >
+                Create Project
+              </ButtonLink>
             </div>
             <div className={styles.projectGrid}>
               {data.workspace.team?.projects?.edges.map((project) => (

@@ -3,11 +3,14 @@
 import styles from "./page.module.css";
 import { BackButtonLink } from "../components/BackButtonLink";
 import { Button } from "@/components/Button";
+import { useTeamId } from "../useTeamId";
 
 export default function BlankProjectPage() {
+  const teamId = useTeamId();
+
   return (
     <main className={styles.main}>
-      <BackButtonLink href="/create" />
+      <BackButtonLink href={`/create/?teamId=${teamId}`} />
       <h1>Create Blank Project</h1>
       <div className={styles.content}>
         <p>

@@ -69,3 +69,9 @@
 .danger:active {
   background-color: var(--red-700);
 }
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

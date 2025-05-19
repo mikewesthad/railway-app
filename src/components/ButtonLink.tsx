@@ -1,15 +1,25 @@
+import { ComponentProps } from "react";
 import Link from "next/link";
 import styles from "./ButtonLink.module.css";
 
-interface ButtonLinkProps {
-  href: string;
+type ButtonVariant = "default" | "primary" | "danger";
+
+interface ButtonLinkProps extends ComponentProps<typeof Link> {
   children: React.ReactNode;
-  className?: string;
+  variant?: ButtonVariant;
+  leftIcon?: React.ReactNode;
 }
 
-export function ButtonLink({ href, children, className }: ButtonLinkProps) {
+export function ButtonLink({
+  children,
+  className,
+  variant = "default",
+  leftIcon,
+  ...props
+}: ButtonLinkProps) {
   return (
-    <Link href={href} className={`${styles.buttonLink} ${className || ""}`}>
+    <Link className={`${styles.buttonLink} ${styles[variant]} ${className || ""}`} {...props}>
+      {leftIcon && <span className={styles.icon}>{leftIcon}</span>}
       {children}
     </Link>
   );

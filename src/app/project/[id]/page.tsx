@@ -10,6 +10,7 @@ import { Button } from "@/components/Button";
 import { useState } from "react";
 import { DeleteModal } from "./DeleteModal";
 import { Deployment, sortDeployments } from "./Deployment";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const PROJECT_QUERY = gql(`
   query ProjectPageGet($id: String!) {
@@ -93,6 +94,7 @@ export default function ProjectPage() {
                   disabled={project.deletedAt}
                   variant="danger"
                   onClick={() => setShowDeleteModal(true)}
+                  leftIcon={<FaRegTrashCan />}
                 >
                   Delete project
                 </Button>

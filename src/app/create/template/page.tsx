@@ -9,6 +9,7 @@ import { CreatePageTemplatesQuery, TemplateCardFragment } from "@/__generated__/
 import { BackButtonLink } from "../components/BackButtonLink";
 import { TemplateCard } from "../components/TemplateCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useTeamId } from "../useTeamId";
 
 const templatesQuery = gql(`
   query CreatePageTemplates {
@@ -20,16 +21,6 @@ const templatesQuery = gql(`
           id
           ...TemplateCard
         }
-      }
-    }
-  }
-`);
-
-const workspaceQuery = gql(`
-  query CreatePageWorkspace {
-    workspace(workspaceId: "14fc15eb-b61d-47bc-93b0-385d4d2b244b") {
-      team {
-        id
       }
     }
   }
@@ -50,6 +41,7 @@ function useSortedTemplates(templates: CreatePageTemplatesQuery["templates"]["ed
 }
 
 export default function TemplatePage() {
+  const teamId = useTeamId();
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateCardFragment | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -61,8 +53,6 @@ export default function TemplatePage() {
 
   const sortedTemplates = useSortedTemplates(templatesData?.templates?.edges ?? []);
 
-  const { data: workspaceData } = useQuery(workspaceQuery);
-
   const handleTemplateClick = (template: TemplateCardFragment) => {
     setSelectedTemplate(template);
     setIsModalOpen(true);
@@ -71,7 +61,7 @@ export default function TemplatePage() {
   return (
     <main className={styles.main}>
       <div>
-        <BackButtonLink href="/create" />
+        <BackButtonLink href={`/create?teamId=${teamId}`} />
       </div>
       <h1>Browse Templates</h1>
       {templatesLoading && <LoadingSpinner />}
@@ -104,9 +94,9 @@ export default function TemplatePage() {
         </div>
       )}
 
-      {selectedTemplate && workspaceData?.workspace?.team?.id ? (
+      {selectedTemplate && teamId ? (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={"Deploy Template"}>
-          <TemplateCard template={selectedTemplate} teamId={workspaceData?.workspace?.team?.id} />
+          <TemplateCard template={selectedTemplate} teamId={teamId} />
         </Modal>
       ) : null}
     </main>

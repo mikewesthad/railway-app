@@ -3,11 +3,14 @@
 import { BackButtonLink } from "../components/BackButtonLink";
 import { Button } from "@/components/Button";
 import styles from "./page.module.css";
+import { useTeamId } from "../useTeamId";
 
 export default function GithubPage() {
+  const teamId = useTeamId();
+
   return (
     <main className={styles.main}>
-      <BackButtonLink href="/create" />
+      <BackButtonLink href={`/create?teamId=${teamId}`} />
       <h1>Import from GitHub</h1>
       <div className={styles.content}>
         <p>

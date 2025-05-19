@@ -2,6 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
@@ -12,15 +13,66 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.buttonLink:hover {
-  background-color: var(--pink-600);
+.buttonLink:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .buttonLink:focus {
-  outline: 2px solid var(--pink-700);
   outline-offset: 2px;
+  outline: 2px solid var(--gray-700);
 }
 
-.buttonLink:active {
+.default {
+  background-color: var(--gray-200);
+}
+
+.default:hover {
+  background-color: var(--gray-300);
+}
+
+.default:focus {
+  outline-color: var(--gray-300);
+}
+
+.default:active {
+  background-color: var(--gray-400);
+}
+
+.primary {
+  background-color: var(--pink-500);
+}
+
+.primary:hover {
+  background-color: var(--pink-600);
+}
+
+.primary:focus {
+  outline-color: var(--pink-700);
+}
+
+.primary:active {
   background-color: var(--pink-700);
+}
+
+.danger {
+  background-color: var(--red-500);
+}
+
+.danger:hover {
+  background-color: var(--red-600);
+}
+
+.danger:focus {
+  outline-color: var(--red-700);
+}
+
+.danger:active {
+  background-color: var(--red-700);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

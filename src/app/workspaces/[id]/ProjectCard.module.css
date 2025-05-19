@@ -8,6 +8,10 @@
   overflow: hidden;
   transition: box-shadow 0.2s, border-color 0.2s;
   cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .card:hover {
@@ -35,9 +39,12 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 16px;
-  position: relative;
-  z-index: 1;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .title {
@@ -45,6 +52,7 @@
   font-size: 1.3rem;
   font-weight: 700;
   color: #fff;
+  text-decoration: none;
 }
 
 .date {
@@ -52,31 +60,10 @@
   color: #888b92;
 }
 
-.description {
-  color: #b0b3ba;
-  margin: 0 0 1.5rem 0;
-  line-height: 1.5;
-  z-index: 1;
-  position: relative;
-}
-
-.services {
-  padding-top: 1rem;
-  z-index: 1;
-  position: relative;
-}
-
-.servicesTitle {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #888b92;
-  margin: 0 0 0.75rem 0;
-}
-
 .serviceList {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 4px;
 }
 
 .service {
@@ -95,28 +82,32 @@
 .serviceIcon {
   width: 18px;
   height: 18px;
-  margin-right: 6px;
+  padding-right: 4px;
   vertical-align: middle;
   display: inline-block;
   object-fit: contain;
-  filter: brightness(0.9) grayscale(0.2);
 }
 
 .deploymentLink {
-  display: inline-block;
-  margin-bottom: 1rem;
-  margin-top: 0.5rem;
-  padding: 0.35em 1em;
-  border-radius: 6px;
-  background: var(--gray-300);
+  display: flex;
+  align-items: center;
+  gap: 4px;
   color: var(--gray-900);
-  font-weight: 500;
-  font-size: 0.97rem;
   text-decoration: none;
-  transition: background 0.18s, color 0.18s;
+  position: relative;
+  z-index: 3;
 }
 
 .deploymentLink:hover {
-  background: var(--gray-400);
-  color: var(--gray-1000);
+  text-decoration: underline;
+}
+
+.stretchedLink::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
 }

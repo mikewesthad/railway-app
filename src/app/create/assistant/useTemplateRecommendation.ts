@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { gql } from "@/__generated__/gql";
-import { CreatePageAssistantTemplateFragment } from "@/__generated__/graphql";
+import { TemplateCardFragment } from "@/__generated__/graphql";
 
 const templateQuery = gql(`
   query CreatePageAssistantGetTemplate($code: String) {
@@ -16,7 +16,7 @@ interface AssistantRecommendationState {
   loading: boolean;
   error: string | null;
   data: {
-    template: CreatePageAssistantTemplateFragment | null;
+    template: TemplateCardFragment | null;
     reason: string;
   } | null;
 }

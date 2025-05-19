@@ -5,6 +5,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import styles from "./layout.module.css";
 import { ApolloWrapper } from "./ApolloWrapper";
+import { RedirectUnauthedUser } from "./RedirectUnauthedUser";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${styles.layout}`}>
+        <RedirectUnauthedUser />
         <ApolloWrapper>
           <div className={styles.content}>
             <Header />
