@@ -6,6 +6,11 @@ import { DeploymentStatus } from "@/app/project/[id]/DeploymentStatus";
 import styles from "./Deployment.module.css";
 import { ProjectPageDeploymentInfoFragment } from "@/__generated__/graphql";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { Button } from "@/components/Button";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { ImMagicWand } from "react-icons/im";
 
 // Mapping for ordering deployments by their status.
 const DeploymentStatusOrder = {
@@ -60,11 +65,71 @@ gql(`
   }
 `);
 
+const BUILD_LOGS_QUERY = gql(`
+  query BuildLogsGet($deploymentId: String!) {
+    buildLogs(deploymentId: $deploymentId) {
+      ...BuildLog
+    }
+  }
+
+  fragment BuildLog on Log {
+    message
+    timestamp
+    severity
+  }
+`);
+
+interface BuildLog {
+  message: string;
+  timestamp: string;
+  severity?: string | null;
+}
+
 interface DeploymentProps {
   deployment: ProjectPageDeploymentInfoFragment;
 }
 
 export function Deployment({ deployment }: DeploymentProps) {
+  const [showLogs, setShowLogs] = useState(false);
+  const [explanation, setExplanation] = useState<string | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const { data: logsData, loading: logsLoading } = useQuery(BUILD_LOGS_QUERY, {
+    variables: { deploymentId: deployment.id },
+    skip: !showLogs,
+  });
+
+  const analyzeLogs = async () => {
+    if (!logsData?.buildLogs) return;
+
+    setAnalyzing(true);
+    try {
+      const logText = logsData.buildLogs
+        .map((log) => `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message}`)
+        .join("\n")
+        .slice(-3000);
+
+      const response = await fetch("/api/explainFailingBuild", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ logs: logText }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to analyze logs");
+      }
+
+      const result = await response.json();
+      setExplanation(result.explanation);
+    } catch (error) {
+      console.error("Failed to analyze logs:", error);
+      setExplanation("Failed to analyze logs. Please try again.");
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
   return (
     <div className={styles.deploymentCard}>
       <div className={styles.topRow}>
@@ -116,6 +181,47 @@ export function Deployment({ deployment }: DeploymentProps) {
           <p>No deployment URL</p>
         )}
       </div>
+      {deployment.status === "FAILED" ? (
+        <div className={styles.errorSection}>
+          {!showLogs ? (
+            <Button onClick={() => setShowLogs(true)}>View Logs</Button>
+          ) : (
+            <div className={styles.logsContainer}>
+              {logsLoading ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <div className={styles.logsHeader}>
+                    <Button onClick={() => setShowLogs(false)}>Hide Logs</Button>
+                    <Button
+                      leftIcon={analyzing ? <LoadingSpinner /> : <ImMagicWand />}
+                      onClick={analyzeLogs}
+                      disabled={analyzing}
+                    >
+                      Explain Error
+                    </Button>
+                  </div>
+                  {explanation && (
+                    <div className={styles.explanation}>
+                      <strong>Error Analysis:</strong> {explanation}
+                    </div>
+                  )}
+                  <div className={styles.logs}>
+                    {logsData?.buildLogs.map((log: BuildLog, index: number) => (
+                      <div key={`${log.timestamp}-${index}`} className={`${styles.logLine}`}>
+                        <span className={styles.timestamp}>
+                          {new Date(log.timestamp).toLocaleTimeString()}
+                        </span>
+                        <span className={styles.message}>{log.message}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -39,7 +39,6 @@ This is more of a proof of concept than a production-ready app, so there are a f
 - responsive design pass
 - move Next server's API from REST to GQL
 - rate limiting
-- AI debugging for logs, proof-of-concept worked in `DeploymentLogs` component, but was cut for time
 - etc.
 
 ## Setup

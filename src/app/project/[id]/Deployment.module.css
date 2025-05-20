@@ -71,3 +71,76 @@
   font-size: 0.9rem;
   color: var(--gray-700);
 }
+
+.errorSection {
+  padding-top: 8px;
+}
+
+.logsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logsHeader {
+  display: flex;
+  gap: 8px;
+  justify-content: start;
+}
+
+.explanation {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 16px;
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+
+.logs {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.logLine {
+  display: flex;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.timestamp {
+  color: var(--gray-500);
+  white-space: nowrap;
+}
+
+.message {
+  color: var(--gray-700);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Scrollbar styles */
+.logs::-webkit-scrollbar {
+  width: 8px;
+}
+
+.logs::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 4px;
+}
+
+.logs::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 4px;
+}
+
+.logs::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
