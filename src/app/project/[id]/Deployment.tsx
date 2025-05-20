@@ -103,6 +103,9 @@ export function Deployment({ deployment }: DeploymentProps) {
 
     setAnalyzing(true);
     try {
+      // TODO: ideally this wouldn't require the client to send the logs to the
+      // server. I imagine the AI summary could be generated in a job after a
+      // build fails.
       const logText = logsData.buildLogs
         .map((log) => `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message}`)
         .join("\n")
