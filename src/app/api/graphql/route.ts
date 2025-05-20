@@ -37,6 +37,11 @@ export async function POST(request: Request) {
     body: JSON.stringify(body),
   });
 
+  if (!response.ok) {
+    console.error("Failed to forward request", response);
+    return NextResponse.json({ error: "Failed to forward request" }, { status: 500 });
+  }
+
   const data = await response.json();
   return NextResponse.json(data);
 }

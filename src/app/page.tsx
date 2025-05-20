@@ -96,6 +96,9 @@ export default function Home() {
     try {
       setIsCheckingToken(true);
       const response = await fetch("/api/tokens");
+      if (!response.ok) {
+        throw new Error("Failed to check token");
+      }
       const data = await response.json();
       setHasToken(data.hasToken);
     } catch (error) {

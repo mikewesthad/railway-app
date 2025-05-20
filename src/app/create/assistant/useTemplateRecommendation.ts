@@ -59,6 +59,9 @@ export function useTemplateRecommendation(): UseTemplateRecommendationResult {
         },
         body: JSON.stringify({ prompt: prompt.trim() }),
       });
+      if (!response.ok) {
+        throw new Error("Failed to get recommendation");
+      }
 
       const data = await response.json();
       const templateCode = data.templateCode;
