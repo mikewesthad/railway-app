@@ -15,6 +15,10 @@ You can also deploy via a full screen template experience:
 
 https://github.com/user-attachments/assets/e0633aa5-d028-430d-81b1-fd32cc3cdc66
 
+AI Assistant Debugging:
+
+https://github.com/user-attachments/assets/b8ef695c-5f2c-45f9-a5bb-901395df41a0
+
 ## Overview
 
 Tools:
