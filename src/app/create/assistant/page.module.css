@@ -130,12 +130,13 @@
   padding: 16px;
   border: 1px solid var(--gray-200);
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   background-color: var(--gray-100);
   color: var(--foreground);
   transition: border-color 0.2s, box-shadow 0.2s;
   width: 100%;
   min-height: 150px;
+  padding-bottom: 40px;
 }
 
 .promptInput:focus {
@@ -158,6 +159,8 @@
   flex-wrap: wrap;
   pointer-events: none;
   align-items: center;
+  /* Don't overlap the send button. */
+  padding-right: 120px;
 }
 
 .exampleHint {

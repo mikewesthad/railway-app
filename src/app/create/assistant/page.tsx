@@ -59,7 +59,7 @@ function AssistantPageContent() {
             <div className={styles.inlineExamples}>
               <span className={styles.exampleHint}>Not sure what to build?</span>
               <button
-                onClick={() => setAiPrompt("a messaging app")}
+                onClick={() => setAiPrompt("a messaging app like Discord")}
                 className={styles.inlineExample}
               >
                 a messaging app
@@ -71,11 +71,17 @@ function AssistantPageContent() {
                 an AI knowledge base
               </button>
               <button
-                onClick={() => setAiPrompt("I only know python")}
+                onClick={() => setAiPrompt("I want to set up a clone of SurveyMonkey")}
                 className={styles.inlineExample}
               >
-                I only know python
+                A clone of SurveyMonkey
               </button>
+              {/* 
+                TODO: add more examples. Some that worked well:
+                - I have a react app I want to deploy
+                - I want to build an AI chatbot
+                - I want to build a blog
+              */}
             </div>
             <Button
               variant="primary"
