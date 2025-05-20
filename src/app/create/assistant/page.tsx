@@ -97,7 +97,7 @@ function AssistantPageContent() {
               </div>
             </AssistantMessage>
           ) : null}
-          {error ? <p>{error}</p> : null}
+          {error ? <AssistantMessage>{error}</AssistantMessage> : null}
           {data ? (
             <div className={styles.aiResponse}>
               {data.template ? (
